@@ -11,4 +11,8 @@ This assignment has been prepared by Ali Bektash for Thomas.inc.
 
 ## Install
 
-`npm run start`
+```bash
+git clone https://github.com/agb/thomas-inc-technical-assessment.git
+cd tokyo-covid-dashboard/my-app
+npm install
+npm run start
