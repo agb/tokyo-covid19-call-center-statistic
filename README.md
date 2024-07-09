@@ -13,6 +13,6 @@ This assignment has been prepared by Ali Bektash for Thomas.inc.
 
 ```bash
 git clone https://github.com/agb/thomas-inc-technical-assessment.git
-cd tokyo-covid-dashboard/my-app
+cd thomas-inc-technical-assessment
 npm install
 npm run start
