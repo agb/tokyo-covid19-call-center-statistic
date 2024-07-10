@@ -21,14 +21,13 @@ const CalendarViewPresentational: React.FC<CalendarViewPresentationalProps> = ({
       start: new Date(event.publicationDate),
       end: new Date(event.publicationDate),
       allDay: true,
-      customData: event.nationwideLocalGovernmentCode,
     };
   });
 
   return (
     <div className="pb-2">
       <Calendar
-        defaultView="week"
+        views={["week"]}
         localizer={localizer}
         events={callCenterEvents}
         defaultDate={new Date(2020, 0, 1)}
