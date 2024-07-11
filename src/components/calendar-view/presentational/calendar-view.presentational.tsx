@@ -1,9 +1,9 @@
 import React from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from "moment";
-import Covid19CallCenterInterface from "../interfaces/covid19CallCenterNumber.interface";
+import Covid19CallCenterInterface from "../../../interfaces/covid19CallCenterNumber.interface";
 import { Calendar, momentLocalizer } from "react-big-calendar";
-
+import "moment/locale/ja";
 moment.locale("ja");
 
 interface CalendarViewPresentationalProps {
@@ -27,6 +27,11 @@ const CalendarViewPresentational: React.FC<CalendarViewPresentationalProps> = ({
   return (
     <div className="pb-2">
       <Calendar
+        messages={{
+          next: "次月",
+          previous: "前月",
+          today: "本日",
+        }}
         views={["month"]}
         defaultView="month"
         localizer={localizer}
