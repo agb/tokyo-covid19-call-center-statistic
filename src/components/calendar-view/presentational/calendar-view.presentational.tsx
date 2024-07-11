@@ -28,9 +28,11 @@ const CalendarViewPresentational: React.FC<CalendarViewPresentationalProps> = ({
     <div className="pb-2">
       <Calendar
         views={["week"]}
+        defaultView="week"
         localizer={localizer}
         events={callCenterEvents}
-        defaultDate={new Date(2020, 0, 1)}
+        defaultDate={new Date(2020, 2, 1)}
+        style={{ height: `120px` }}
       />
     </div>
   );
