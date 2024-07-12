@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import CalendarViewPresentational from "../presentational/calendar-view.presentational";
-import CalendarViewService from "../calendar-view.service";
+import { useEffect, useState } from "react";
+import PieChartViewService from "../pie-chart-view.service";
+import PieGraphPresentational from "../presentational/pie-graph/pie-graph.presentational";
 import Covid19CallCenterInterface from "../../../interfaces/covid19CallCenterNumber.interface";
-const Service = new CalendarViewService();
+const Service = new PieChartViewService();
 
-const CalendarViewContainer = () => {
+const PieChartViewContainer = () => {
   const [data, setData] = useState<Covid19CallCenterInterface[] | undefined>(
     undefined
   );
@@ -28,10 +28,10 @@ const CalendarViewContainer = () => {
   }, []);
 
   return (
-    <div className="container mx-auto px-10">
-      {error ? <p>{error}</p> : <CalendarViewPresentational data={data} />}
+    <div className="container mx-auto pb-2">
+      {error ? <p>{error}</p> : <PieGraphPresentational data={data} />}
     </div>
   );
 };
 
-export default CalendarViewContainer;
+export default PieChartViewContainer;
