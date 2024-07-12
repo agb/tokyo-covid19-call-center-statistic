@@ -41,7 +41,9 @@ export default class ApiService {
         const response = await fetch(`${this.BASE_URL}/${endpoint}`);
 
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(
+            `Network Error! HTTP error status: ${response.status}`
+          );
         }
 
         const fromServerdata: [] = await response.json();
@@ -49,7 +51,6 @@ export default class ApiService {
 
         return { data: afterMapper };
       } catch (error: any) {
-        console.log("Network error!", error);
         return { data: [], error: error.message };
       }
     };

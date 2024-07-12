@@ -4,35 +4,39 @@ import {
   faChartPie,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 
 const SelectViewPresentational = () => {
   return (
     <div className="flex gap-3 text-2xl text-gray-800">
-      <a
+      <Link
         data-tooltip-id="tooltip"
         data-tooltip-content="カレンダービュー"
         className="px-2 border-gray-200 border bg-gray-200 rounded"
-        href="/"
+        to="/calendar"
       >
         <FontAwesomeIcon icon={faCalendar} />
-      </a>
-      <a
+      </Link>
+
+      <Link
         data-tooltip-id="tooltip"
         data-tooltip-content="折れ線グラフ"
         className="px-2 border-gray-200 border bg-gray-200 rounded"
-        href="/"
+        to="/line-chart"
       >
         <FontAwesomeIcon icon={faSquarePollVertical} />
-      </a>
-      <a
+      </Link>
+
+      <Link
         data-tooltip-id="tooltip"
         data-tooltip-content="円グラフ"
         className="px-2 border-gray-200 border bg-gray-200 rounded"
-        href="/"
+        to="/pie-chart"
       >
         <FontAwesomeIcon icon={faChartPie} />
-      </a>
+      </Link>
+
       <Tooltip id="tooltip" place="top" />
     </div>
   );
