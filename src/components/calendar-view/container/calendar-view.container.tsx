@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import CalendarViewPresentational from "../presentational/calendar-view.presentational";
 import CalendarViewService from "../calendar-view.service";
-import Covid19CallCenterInterface from "../interfaces/covid19CallCenterNumber.interface";
+import Covid19CallCenterInterface from "../../../interfaces/covid19CallCenterNumber.interface";
 const Service = new CalendarViewService();
 
 const CalendarViewContainer = () => {
@@ -13,7 +13,7 @@ const CalendarViewContainer = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await Service.fetchNumberOfCovid19CallCenter();
+        const result = await Service.getData();
         if (result.error) {
           setError(result.error);
         } else {
