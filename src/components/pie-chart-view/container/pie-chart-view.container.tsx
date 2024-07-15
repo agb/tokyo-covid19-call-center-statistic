@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PieChartViewService from "../pie-chart-view.service";
 import PieGraphPresentational from "../presentational/pie-graph/pie-graph.presentational";
 import Covid19CallCenterInterface from "../../../interfaces/covid19CallCenterNumber.interface";
-import { UserNavigatorContext } from "../../user-navigator/user-navigator.context";
+import NavigatorState from "../../user-navigator/user-navigator.state";
 const Service = new PieChartViewService();
 
 const PieChartViewContainer = () => {
-  const { navigator } = useContext(UserNavigatorContext);
+  const dateRange = NavigatorState((state) => state.dateRange);
 
   const [data, setData] = useState<Covid19CallCenterInterface[] | undefined>(
     undefined
@@ -17,8 +17,8 @@ const PieChartViewContainer = () => {
     const fetchData = async () => {
       try {
         const result = await Service.getData({
-          from: navigator.dateRange.start,
-          till: navigator.dateRange.end,
+          from: dateRange.start,
+          till: dateRange.end,
           limit: 1000,
         });
         if (result.error) {
@@ -32,7 +32,7 @@ const PieChartViewContainer = () => {
     };
 
     fetchData();
-  }, [navigator.dateRange.end, navigator.dateRange.start]);
+  }, [dateRange]);
 
   return (
     <div className="container mx-auto px-10">

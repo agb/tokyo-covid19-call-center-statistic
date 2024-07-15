@@ -1,11 +1,12 @@
-import { useContext, useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { UserNavigatorContext } from "../../user-navigator.context";
 import initialDates from "../../../../interfaces/initial-date";
+import UserNavigatorState from "../../user-navigator.state";
 
 const SelectDatePresentational = () => {
-  const { navigator, setNavigator } = useContext(UserNavigatorContext);
+  const navigator = UserNavigatorState((state) => state);
+
   const [startDate, setStartDate] = useState<Date | undefined>(
     new Date(initialDates.start)
   );
@@ -13,32 +14,20 @@ const SelectDatePresentational = () => {
     new Date(initialDates.end)
   );
 
-  const initialStartDate = new Date(initialDates.start);
-  const initialEndDate = new Date(initialDates.end);
+  const initialStartDate = useMemo(() => new Date(initialDates.start), []);
+  const initialEndDate = useMemo(() => new Date(initialDates.end), []);
 
-  useEffect(() => {
-    setNavigator((state) => ({
-      ...state,
-      dateRange: {
-        start: startDate || state.dateRange.start,
-        end: endDate || state.dateRange.end,
-      },
-    }));
-  }, [
-    startDate,
-    endDate,
-    setNavigator,
-    navigator.dateRange.start,
-    navigator.dateRange.end,
-  ]);
-
-  const onChangeDatePicker = (date: Date | null, position: "start" | "end") => {
+  const onChangeStartDate = (date: Date | null) => {
     if (date) {
-      if (position === "start") {
-        setStartDate(date);
-      } else {
-        setEndDate(date);
-      }
+      setStartDate(date);
+      navigator.setDateRange(date, navigator.dateRange.end);
+    }
+  };
+
+  const onChangeEndDate = (date: Date | null) => {
+    if (date) {
+      setEndDate(date);
+      navigator.setDateRange(navigator.dateRange.start, date);
     }
   };
 
@@ -48,7 +37,7 @@ const SelectDatePresentational = () => {
         showIcon
         className="border-gray-300 !pt-1 !pb-2 !pl-8 rounded border"
         selected={startDate}
-        onChange={(date) => onChangeDatePicker(date as Date, "start")}
+        onChange={onChangeStartDate}
         selectsStart
         startDate={startDate}
         endDate={endDate}
@@ -60,7 +49,7 @@ const SelectDatePresentational = () => {
         showIcon
         className="border-gray-300 !pt-1 !pb-2 rounded border"
         selected={endDate}
-        onChange={(date) => onChangeDatePicker(date as Date, "end")}
+        onChange={onChangeEndDate}
         selectsEnd
         minDate={startDate || initialStartDate}
         startDate={startDate}
