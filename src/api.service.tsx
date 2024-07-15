@@ -1,3 +1,4 @@
+import { callCenterUrlParams } from "./interfaces/callCenterUrlParams.interface";
 import Covid19CallCenterInterface from "./interfaces/covid19CallCenterNumber.interface";
 
 interface NumberOfCovid19CallCenter {
@@ -16,42 +17,53 @@ interface fromServerDataWithJapanese {
 export default class ApiService {
   private BASE_URL = "https://api.data.metro.tokyo.lg.jp/v1";
 
-  fetchNumberOfCovid19CallCenter =
-    async (): Promise<NumberOfCovid19CallCenter> => {
-      const endpoint = "Covid19CallCenter";
+  dataMapperForCovid19CallCenterInterface = (
+    data: [][]
+  ): Covid19CallCenterInterface[] => {
+    if (data && data.length > 1) {
+      const callCenterJapaneseData: fromServerDataWithJapanese[] =
+        data[0] ?? [];
 
-      const dataMapper = (data: [][]): Covid19CallCenterInterface[] => {
-        if (data && data.length > 1) {
-          const callCenterJapaneseData: fromServerDataWithJapanese[] =
-            data[0] ?? [];
+      return callCenterJapaneseData.map((item) => ({
+        prefectureName: item["都道府県名"],
+        nationwideLocalGovernmentCode: item["全国地方公共団体コード"],
+        publicationDate: item["受付_年月日"],
+        callCenterCount: item["相談件数"],
+        confirmationDate: item["曜日"],
+      }));
+    }
 
-          return callCenterJapaneseData.map((item) => ({
-            prefectureName: item["都道府県名"],
-            nationwideLocalGovernmentCode: item["全国地方公共団体コード"],
-            publicationDate: item["受付_年月日"],
-            callCenterCount: item["相談件数"],
-            confirmationDate: item["曜日"],
-          }));
-        }
+    return [];
+  };
 
-        return [];
-      };
+  fetchNumberOfCovid19CallCenter = async (
+    params: callCenterUrlParams
+  ): Promise<NumberOfCovid19CallCenter> => {
+    const endpoint = "Covid19CallCenter";
+    const url = new URL(`${this.BASE_URL}/${endpoint}`);
+    const { from, till, limit, cursor } = params;
 
-      try {
-        const response = await fetch(`${this.BASE_URL}/${endpoint}`);
+    url.searchParams.append("from", String(from));
+    url.searchParams.append("till", String(till));
+    url.searchParams.append("limit", String(limit));
 
-        if (!response.ok) {
-          throw new Error(
-            `Network Error! HTTP error status: ${response.status}`
-          );
-        }
+    if (cursor) {
+      url.searchParams.append("cursor", cursor);
+    }
 
-        const fromServerdata: [] = await response.json();
-        const afterMapper = dataMapper(fromServerdata);
-
-        return { data: afterMapper };
-      } catch (error: any) {
-        return { data: [], error: error.message };
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Network Error! HTTP error status: ${response.status}`);
       }
-    };
+
+      const fromServerdata: [] = await response.json();
+      const afterMapper =
+        this.dataMapperForCovid19CallCenterInterface(fromServerdata);
+
+      return { data: afterMapper };
+    } catch (error: any) {
+      return { data: [], error: error.message };
+    }
+  };
 }

@@ -7,12 +7,11 @@ import "moment/locale/ja";
 moment.locale("ja");
 
 interface CalendarViewPresentationalProps {
-  data: Covid19CallCenterInterface[] | undefined;
+  data?: Covid19CallCenterInterface[];
 }
 
-const CalendarViewPresentational: React.FC<CalendarViewPresentationalProps> = ({
-  data,
-}) => {
+const CalendarViewPresentational = (props: CalendarViewPresentationalProps) => {
+  const { data } = props;
   const localizer = momentLocalizer(moment);
 
   const callCenterEvents = data?.map((event) => {
@@ -37,7 +36,7 @@ const CalendarViewPresentational: React.FC<CalendarViewPresentationalProps> = ({
         localizer={localizer}
         events={callCenterEvents}
         defaultDate={new Date(2020, 2, 1)}
-        style={{ height: `500px` }}
+        style={{ height: "500px" }}
       />
     </div>
   );
