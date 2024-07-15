@@ -6,12 +6,12 @@ import Covid19CallCenterInterface from "../../../../interfaces/covid19CallCenter
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
 interface PieGraphPresentationalProps {
-  data: Covid19CallCenterInterface[] | undefined;
+  data?: Covid19CallCenterInterface[];
 }
 
-const PieGraphPresentational: React.FC<PieGraphPresentationalProps> = ({
-  data,
-}) => {
+const PieGraphPresentational = (props: PieGraphPresentationalProps) => {
+  const { data } = props;
+
   let total2020 = 0;
   let total2021 = 0;
   let total2022 = 0;

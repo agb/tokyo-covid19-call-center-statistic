@@ -13,7 +13,6 @@ function App() {
       <div className="w-full flex flex-col">
         <Header></Header>
         <UserNavigator></UserNavigator>
-
         <Routes>
           <Route path="/" element={<CalendarView />} />
           <Route path="/calendar" element={<CalendarView />} />

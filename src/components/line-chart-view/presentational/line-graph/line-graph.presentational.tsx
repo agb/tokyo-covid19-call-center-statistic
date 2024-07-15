@@ -1,3 +1,4 @@
+import React from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -22,16 +23,18 @@ ChartJS.register(
 );
 
 interface LineGraphPresentationalProps {
-  data: Covid19CallCenterInterface[] | undefined;
+  data?: Covid19CallCenterInterface[];
 }
 
-const LineGraphPresentational: React.FC<LineGraphPresentationalProps> = ({
-  data,
-}) => {
+const LineGraphPresentational = (props: LineGraphPresentationalProps) => {
+  const { data } = props;
+
   const labels =
     data?.map((callcenterData) => {
       const currentView = new Date(callcenterData.publicationDate);
-      const newDateView = `${currentView.getFullYear()}年/${currentView.getMonth()}月`;
+      const newDateView = `${currentView.getFullYear()}年/${
+        currentView.getMonth() + 1
+      }月`;
 
       return newDateView;
     }) || [];

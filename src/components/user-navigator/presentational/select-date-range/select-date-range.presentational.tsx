@@ -1,13 +1,46 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { UserNavigatorContext } from "../../user-navigator.context";
+import initialDates from "../../../../interfaces/initial-date";
 
 const SelectDatePresentational = () => {
-  const initialStartDate = new Date("2020-01-01");
-  const initialEndDate = new Date("2022-12-31");
+  const { navigator, setNavigator } = useContext(UserNavigatorContext);
+  const [startDate, setStartDate] = useState<Date | undefined>(
+    new Date(initialDates.start)
+  );
+  const [endDate, setEndDate] = useState<Date | undefined>(
+    new Date(initialDates.end)
+  );
 
-  const [startDate, setStartDate] = useState<Date>(initialStartDate);
-  const [endDate, setEndDate] = useState<Date>(initialEndDate);
+  const initialStartDate = new Date(initialDates.start);
+  const initialEndDate = new Date(initialDates.end);
+
+  useEffect(() => {
+    setNavigator((state) => ({
+      ...state,
+      dateRange: {
+        start: startDate || state.dateRange.start,
+        end: endDate || state.dateRange.end,
+      },
+    }));
+  }, [
+    startDate,
+    endDate,
+    setNavigator,
+    navigator.dateRange.start,
+    navigator.dateRange.end,
+  ]);
+
+  const onChangeDatePicker = (date: Date | null, position: "start" | "end") => {
+    if (date) {
+      if (position === "start") {
+        setStartDate(date);
+      } else {
+        setEndDate(date);
+      }
+    }
+  };
 
   return (
     <div className="flex gap-2">
@@ -15,25 +48,25 @@ const SelectDatePresentational = () => {
         showIcon
         className="border-gray-300 !pt-1 !pb-2 !pl-8 rounded border"
         selected={startDate}
-        onChange={(date) => setStartDate(date ?? initialStartDate)}
+        onChange={(date) => onChangeDatePicker(date as Date, "start")}
         selectsStart
         startDate={startDate}
         endDate={endDate}
         placeholderText="開始日"
         minDate={initialStartDate}
-        maxDate={initialEndDate}
+        maxDate={endDate || initialEndDate}
       />
       <DatePicker
         showIcon
         className="border-gray-300 !pt-1 !pb-2 rounded border"
         selected={endDate}
-        onChange={(date) => setEndDate(date ?? initialEndDate)}
+        onChange={(date) => onChangeDatePicker(date as Date, "end")}
         selectsEnd
+        minDate={startDate || initialStartDate}
         startDate={startDate}
         endDate={endDate}
-        minDate={initialStartDate}
-        maxDate={initialEndDate}
         placeholderText="終了日"
+        maxDate={initialEndDate}
       />
     </div>
   );
