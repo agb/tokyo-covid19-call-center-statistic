@@ -1,3 +1,4 @@
+import useCovid19CallCenterStore from "./cache.state";
 import { callCenterUrlParams } from "./interfaces/callCenterUrlParams.interface";
 import Covid19CallCenterInterface from "./interfaces/covid19CallCenterNumber.interface";
 
@@ -51,6 +52,22 @@ export default class ApiService {
       url.searchParams.append("cursor", cursor);
     }
 
+    const cacheKey = url.toString();
+    const {
+      covid19CallCenterData,
+      covid19CallCenterError,
+      setCovid19CallCenterData,
+      setCovid19CallCenterError,
+    } = useCovid19CallCenterStore.getState();
+
+    // Check cache
+    if (covid19CallCenterData && covid19CallCenterData[cacheKey]) {
+      return { data: covid19CallCenterData[cacheKey] };
+    }
+    if (covid19CallCenterError && covid19CallCenterError[cacheKey]) {
+      return { data: [], error: covid19CallCenterError[cacheKey] };
+    }
+
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -61,8 +78,12 @@ export default class ApiService {
       const afterMapper =
         this.dataMapperForCovid19CallCenterInterface(fromServerdata);
 
+      setCovid19CallCenterData(cacheKey, afterMapper);
+
       return { data: afterMapper };
     } catch (error: any) {
+      setCovid19CallCenterError(cacheKey, error.message);
+
       return { data: [], error: error.message };
     }
   };
