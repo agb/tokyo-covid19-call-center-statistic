@@ -4,21 +4,20 @@ import {
   faChartPie,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
-import { UserNavigatorContext } from "../../user-navigator.context";
+import UserNavigatorState from "../../user-navigator.state";
 
 const SelectViewPresentational = () => {
-  const { navigator, setNavigator } = useContext(UserNavigatorContext);
+  const { activeTab, setActiveTab } = UserNavigatorState();
   const pathName = useLocation().pathname;
 
   useEffect(() => {
-    setNavigator((state) => ({
-      ...state,
-      activeTab: pathName,
-    }));
-  }, [pathName, setNavigator]);
+    if (activeTab !== pathName) {
+      setActiveTab(pathName);
+    }
+  }, [activeTab, pathName, setActiveTab]);
 
   return (
     <div className="flex gap-3 text-2xl text-gray-800">
@@ -26,7 +25,7 @@ const SelectViewPresentational = () => {
         data-tooltip-id="tooltip"
         data-tooltip-content="カレンダービュー"
         className={`px-2 border-gray-200 rounded border  ${
-          navigator.activeTab === "/calendar" || navigator.activeTab === "/"
+          activeTab === "/calendar" || activeTab === "/"
             ? "bg-white border-2 border-gray-700"
             : "bg-gray-200"
         }`}
@@ -38,7 +37,7 @@ const SelectViewPresentational = () => {
         data-tooltip-id="tooltip"
         data-tooltip-content="折れ線グラフ"
         className={`px-2 border-gray-200 rounded  ${
-          navigator.activeTab === "/line-chart"
+          activeTab === "/line-chart"
             ? "bg-white border-2 border-gray-700"
             : "bg-gray-200"
         }`}
@@ -50,7 +49,7 @@ const SelectViewPresentational = () => {
         data-tooltip-id="tooltip"
         data-tooltip-content="円グラフ"
         className={`px-2 border-gray-200 rounded ${
-          navigator.activeTab === "/pie-chart"
+          activeTab === "/pie-chart"
             ? "bg-white border-2 border-gray-700"
             : "border bg-gray-200"
         }`}
