@@ -26,11 +26,6 @@ const CalendarViewPresentational = (props: CalendarViewPresentationalProps) => {
   return (
     <div className="pb-2">
       <Calendar
-        messages={{
-          next: "次月",
-          previous: "前月",
-          today: "本日",
-        }}
         views={["month"]}
         defaultView="month"
         localizer={localizer}

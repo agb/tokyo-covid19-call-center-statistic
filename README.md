@@ -1,18 +1,20 @@
-# Thomas's technical assessment
+# Number of consultations at the Tokyo COVID-19 Call Center
 
-[![Thomas's logo](https://thomas-gr.com/wp-content/themes/wp-thomas/assets/images/logo/logo.svg)](https://thomas-gr.com/)
-
-This assignment has been prepared by Ali Bektash for Thomas.inc.
+[![Tokyo Open Data's logo](https://portal.data.metro.tokyo.lg.jp/wp-content/themes/opendata/images/og.png)](https://portal.data.metro.tokyo.lg.jp/)
 
 ## Features
 
 - You can see monthly, daily, and weekly coronavirus data.
 - You can see daily, monthly, and weekly consultation count data.
+- ![image](https://gist.github.com/user-attachments/assets/1c61712a-c737-45ba-801e-77e0724f3677)
+  ![image](https://gist.github.com/user-attachments/assets/b3ef34f4-9540-42a6-bbe7-756f5c1d7223)
+  ![image](https://gist.github.com/user-attachments/assets/85f6e252-ff93-4be9-bdfb-e324b62c1107)
 
 ## Install
 
 ```bash
-git clone https://github.com/agb/thomas-inc-technical-assessment.git
-cd thomas-inc-technical-assessment
+git clone https://github.com/agb/tokyo-covid19-call-center-statistic.git
+cd tokyo-covid19-call-center-statistic
 npm install
 npm run start
+```

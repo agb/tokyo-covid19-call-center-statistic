@@ -3,7 +3,7 @@ import LogoPresentational from "../presentational/logo/logo.presentational";
 import MenuPresentational from "../presentational/menu/menu.presentational";
 const HeaderContainer = () => {
   useEffect(() => {
-    document.title = "新型コロナコールセンター相談件数";
+    document.title = "Tokyo's COVID-19 Call Center Numbers";
   });
 
   return (
